@@ -51,11 +51,6 @@ func test_holding_Create(t *testing.T, db *holdings) {
 	assert.Equal(t, Symbol("000001.SZ"), holding.Symbol)
 	assert.Equal(t, float64(1.1), holding.Cost)
 	assert.Equal(t, "", holding.Reminders)
-
-	_, err = db.Create("000001.SZ", date.TodayUTC().String(), 1.1, "")
-	if err != ErrHoldingAlreadyExists {
-		t.Fatal(err)
-	}
 }
 
 func initTestDB(t *testing.T, tables ...interface{}) *gorm.DB {

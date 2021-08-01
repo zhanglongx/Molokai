@@ -1,8 +1,6 @@
 package core
 
 import (
-	"errors"
-
 	"gorm.io/gorm"
 )
 
@@ -34,23 +32,12 @@ type Holding struct {
 
 var Holdings HoldingStore
 
-var (
-	ErrHoldingAlreadyExists = errors.New("Symbol already Exist")
-)
-
 type holdings struct {
 	*gorm.DB
 }
 
 func (db *holdings) Create(Symbol Symbol, Date string,
 	Cost float64, Reminders string) (*Holding, error) {
-	err := db.Where("symbol = ?", Symbol).First(new(Holding)).Error
-	if err == nil {
-		return nil, ErrHoldingAlreadyExists
-	} else if err != gorm.ErrRecordNotFound {
-		return nil, err
-	}
-
 	Holding := &Holding{
 		Symbol:    Symbol,
 		Date:      Date,
