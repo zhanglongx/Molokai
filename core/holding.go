@@ -1,16 +1,22 @@
+// Copyright 2020 Longxiao Zhang <zhanglongx@gmail.com>.
+// All rights reserved.
+// Use of this source code is governed by a GPLv3-style
+// license that can be found in the LICENSE file.
+
 package core
 
 import (
+	"github.com/zhanglongx/Molokai/common"
 	"gorm.io/gorm"
 )
 
 type HoldingStore interface {
 	// Create creates a new holding and persists to database.
 	// Date is in ISO8601 format and with location TZ Asia/Shanghai
-	Create(Symbol Symbol, Date string, Cost float64, Reminders string) (*Holding, error)
+	Create(Symbol common.Symbol, Date string, Cost float64, Reminders string) (*Holding, error)
 
 	// DeleteBySymbol deletes record by Symbol
-	DeleteBySymbol(Symbol Symbol) error
+	DeleteBySymbol(Symbol common.Symbol) error
 
 	// List returns all of records
 	List() ([]*Holding, error)
@@ -23,7 +29,7 @@ type HoldingStore interface {
 type Holding struct {
 	gorm.Model
 
-	Symbol Symbol `gorm:"INDEX"`
+	Symbol common.Symbol `gorm:"INDEX"`
 	Date   string
 	Cost   float64
 
@@ -36,7 +42,7 @@ type holdings struct {
 	*gorm.DB
 }
 
-func (db *holdings) Create(Symbol Symbol, Date string,
+func (db *holdings) Create(Symbol common.Symbol, Date string,
 	Cost float64, Reminders string) (*Holding, error) {
 	Holding := &Holding{
 		Symbol:    Symbol,
@@ -48,7 +54,7 @@ func (db *holdings) Create(Symbol Symbol, Date string,
 	return Holding, db.DB.Create(Holding).Error
 }
 
-func (db *holdings) DeleteBySymbol(Symbol Symbol) error {
+func (db *holdings) DeleteBySymbol(Symbol common.Symbol) error {
 	return db.Where("symbol = ?", Symbol).Delete(new(Holding)).Error
 }
 

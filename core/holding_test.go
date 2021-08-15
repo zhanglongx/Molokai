@@ -1,3 +1,8 @@
+// Copyright 2020 Longxiao Zhang <zhanglongx@gmail.com>.
+// All rights reserved.
+// Use of this source code is governed by a GPLv3-style
+// license that can be found in the LICENSE file.
+
 package core
 
 import (
@@ -6,6 +11,7 @@ import (
 
 	"github.com/fxtlabs/date"
 	"github.com/stretchr/testify/assert"
+	"github.com/zhanglongx/Molokai/common"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -48,7 +54,7 @@ func test_holding_Create(t *testing.T, db *holdings) {
 		t.Fatal(err)
 	}
 
-	assert.Equal(t, Symbol("000001.SZ"), holding.Symbol)
+	assert.Equal(t, common.Symbol("000001.SZ"), holding.Symbol)
 	assert.Equal(t, float64(1.1), holding.Cost)
 	assert.Equal(t, "", holding.Reminders)
 }
