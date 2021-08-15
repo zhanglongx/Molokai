@@ -44,6 +44,11 @@ func RunnerInit() {
 	ts.Init()
 }
 
+// RunnerRun runs a Runner given sufficient input. ts will be auto-initialized,
+// because almost all Runner need it.
+// The return indicts if it will need be notified
+// Note that Params may got updated, ususally happens when runner think it's a
+// notify
 func RunnerRun(symbol common.Symbol, date date.Date, cost float64,
 	params *string) (bool, error) {
 
@@ -59,7 +64,7 @@ func RunnerRun(symbol common.Symbol, date date.Date, cost float64,
 	var runner Runner
 	switch r.Name {
 	case "Percent":
-		var Percent Percent
+		var Percent MinMax
 		runner = &Percent
 	}
 

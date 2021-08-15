@@ -13,38 +13,38 @@ import (
 	"github.com/zhanglongx/Molokai/common"
 )
 
-type Percent struct {
+type MinMax struct {
 	Max float64 `json:"Max"`
 	Min float64 `json:"Min"`
 }
 
-func (p *Percent) Run(symbol common.Symbol, date date.Date, cost float64) (bool, error) {
+func (m *MinMax) Run(symbol common.Symbol, date date.Date, cost float64) (bool, error) {
 
-	if p.Max == 0.0 && p.Min == 0.0 {
+	if m.Max == 0.0 && m.Min == 0.0 {
 		return false, errBadParams
 	}
 
 	return true, nil
 }
 
-type XPercent Percent
+type XMinMax MinMax
 
 // UnmarshalJSON Raise an Error in Go when Unmarshalling Unknown Fields from JSON
 // It is important to note that If X was composed of real struct, the unmarshalling function would be
 // recursive and break.
 // see https://maori.geek.nz/golang-raise-error-if-unknown-field-in-json-with-exceptions-2b0caddecd1
-func (p *Percent) UnmarshalJSON(data []byte) error {
-	var m struct {
-		XPercent
+func (m *MinMax) UnmarshalJSON(data []byte) error {
+	var xm struct {
+		XMinMax
 	}
 
 	dec := json.NewDecoder(bytes.NewReader(data))
 	dec.DisallowUnknownFields() // Force errors
 
-	if err := dec.Decode(&m); err != nil {
+	if err := dec.Decode(&xm); err != nil {
 		return err
 	}
 
-	*p = Percent(m.XPercent)
+	*m = MinMax(xm.XMinMax)
 	return nil
 }
