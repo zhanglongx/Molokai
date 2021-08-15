@@ -18,14 +18,11 @@ type Percent struct {
 	Min float64 `json:"Min"`
 }
 
-func (p *Percent) Run(symbol common.Symbol, date date.Date, cost float64,
-	params *string) (bool, error) {
+func (p *Percent) Run(symbol common.Symbol, date date.Date, cost float64) (bool, error) {
 
 	if p.Max == 0.0 && p.Min == 0.0 {
 		return false, errBadParams
 	}
-
-	p.Min = 11.0
 
 	return true, nil
 }

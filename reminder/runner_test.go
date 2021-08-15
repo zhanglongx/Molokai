@@ -44,7 +44,7 @@ func TestReminderRun(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			_, err := ReminderRun(tt.args.symbol, tt.args.date, tt.args.cost, &tt.args.params)
+			_, err := RunnerRun(tt.args.symbol, tt.args.date, tt.args.cost, &tt.args.params)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("ReminderRun() error = %v, wantErr %v", err, tt.wantErr)
 				return
