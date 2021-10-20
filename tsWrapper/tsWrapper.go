@@ -6,7 +6,6 @@ import (
 
 	"github.com/ShawnRong/tushare-go"
 	"github.com/fxtlabs/date"
-	"github.com/zhanglongx/Molokai/common"
 )
 
 type TsWrapper struct {
@@ -31,7 +30,7 @@ func (t *TsWrapper) Init() {
 // AdjFactor https://tushare.pro/document/2?doc_id=28
 // Only if date is trading days can get the data, if it is a non-trading day
 // error will be returned
-func (t *TsWrapper) AdjFactor(tsCode common.Symbol, date date.Date) (float64, error) {
+func (t *TsWrapper) AdjFactor(tsCode string, date date.Date) (float64, error) {
 	params := make(map[string]string)
 	params["ts_code"] = string(tsCode)
 	params["start_date"] = toNumeric(date)
@@ -56,7 +55,7 @@ func (t *TsWrapper) AdjFactor(tsCode common.Symbol, date date.Date) (float64, er
 	return adj, nil
 }
 
-func (t *TsWrapper) RecentClose(tsCode common.Symbol) (float64, error) {
+func (t *TsWrapper) RecentClose(tsCode string) (float64, error) {
 	params := make(map[string]string)
 	params["ts_code"] = string(tsCode)
 

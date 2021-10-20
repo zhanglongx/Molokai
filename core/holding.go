@@ -5,11 +5,38 @@
 
 package core
 
-type Symbol string
+import (
+	"log"
+
+	"github.com/zhanglongx/Molokai/runner"
+)
 
 type Holding struct {
-	Symbol Symbol
-	Cost   float64
+	Symbol string
 
-	Runner interface{}
+	Runners []runner.Runner
+}
+
+func RunHoldings(holdings []Holding) error {
+	for _, h := range holdings {
+		if err := h.Run(); err != nil {
+			log.Printf("run %s failed", h.Symbol)
+			continue
+		}
+	}
+
+	return nil
+}
+
+func (h *Holding) Run() error {
+	for _, runner := range h.Runners {
+		runner.Symbol = h.Symbol
+
+		if _, err := runner.Run(); err != nil {
+			log.Printf("run %s for runner %s failed: %v",
+				runner.Symbol, runner.Name, err)
+		}
+	}
+
+	return nil
 }

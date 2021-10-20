@@ -1,0 +1,7 @@
+- symbol: '600000.SH'
+  runners: 
+    - name: 'MinMax'
+      param: 
+        Min: 11.00
+        Max: 23.00
+        Cost: 12.00

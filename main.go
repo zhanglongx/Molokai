@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -20,10 +19,12 @@ func main() {
 		log.Fatal("read example.yaml failed")
 	}
 
-	var holdings core.Holding
+	var holdings []core.Holding
 	if err := yaml.Unmarshal(buf, &holdings); err != nil {
 		log.Fatal("parse example.yaml failed")
 	}
 
-	fmt.Println(holdings)
+	if err := core.RunHoldings(holdings); err != nil {
+		log.Fatal(err)
+	}
 }

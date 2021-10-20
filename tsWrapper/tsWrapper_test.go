@@ -5,7 +5,6 @@ import (
 
 	"github.com/ShawnRong/tushare-go"
 	"github.com/fxtlabs/date"
-	"github.com/zhanglongx/Molokai/common"
 )
 
 func TestTsWrapper_AdjFactor(t *testing.T) {
@@ -14,7 +13,7 @@ func TestTsWrapper_AdjFactor(t *testing.T) {
 		api   *tushare.TuShare
 	}
 	type args struct {
-		tsCode common.Symbol
+		tsCode string
 		date   date.Date
 	}
 	tests := []struct {
@@ -69,7 +68,7 @@ func TestTsWrapper_RecentClose(t *testing.T) {
 		api   *tushare.TuShare
 	}
 	type args struct {
-		tsCode common.Symbol
+		tsCode string
 	}
 	tests := []struct {
 		name    string
