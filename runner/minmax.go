@@ -8,9 +8,8 @@ import (
 type minMax struct {
 	Symbol string
 
-	Min  float64
-	Max  float64
-	Cost float64
+	Min float64
+	Max float64
 }
 
 func (m *minMax) Valid() bool {
@@ -22,15 +21,16 @@ func (m *minMax) Valid() bool {
 }
 
 func (m *minMax) Check() (r Result, err error) {
-	if m.Cost < m.Min {
+	now := 1.0
+	if now < m.Min {
 		r.IsShouldRemind = true
-		r.Message = fmt.Sprintf("%f drop below %f", m.Cost, m.Min)
+		r.Message = fmt.Sprintf("%f drop below %f", now, m.Min)
 		return
 	}
 
-	if m.Cost > m.Max {
+	if now > m.Max {
 		r.IsShouldRemind = true
-		r.Message = fmt.Sprintf("%f exceed %f", m.Cost, m.Max)
+		r.Message = fmt.Sprintf("%f exceed %f", now, m.Max)
 	}
 
 	return
