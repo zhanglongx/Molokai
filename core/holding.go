@@ -61,7 +61,7 @@ func (h *Holding) Run() error {
 
 		if m.IsShouldRemind {
 			// tempz
-			fmt.Printf("%s: %s", h.Symbol, m.Message)
+			fmt.Printf("%s: %s\n", h.Symbol, m.Message)
 		}
 	}
 

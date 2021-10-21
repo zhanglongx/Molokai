@@ -24,13 +24,14 @@ func (m *minMax) Check() (r Result, err error) {
 	now := 1.0
 	if now < m.Min {
 		r.IsShouldRemind = true
-		r.Message = fmt.Sprintf("%f drop below %f", now, m.Min)
+		r.Message = fmt.Sprintf("%.2f drop below %.2f", now, m.Min)
 		return
 	}
 
 	if now > m.Max {
 		r.IsShouldRemind = true
-		r.Message = fmt.Sprintf("%f exceed %f", now, m.Max)
+		r.Message = fmt.Sprintf("%.2f exceed %.2f", now, m.Max)
+		return
 	}
 
 	return

@@ -39,24 +39,18 @@ var (
 	errRunnerNotValid = errors.New("runner not valid")
 )
 
-// Hacks: turn runner map -> runner struct dynamically.
-//		  see mapToStruct()
-var runnerMap = map[string]runnerOp{
-	"MinMax": &minMax{},
-}
-
 func (r *Runner) Run() (Result, error) {
-	if runnerMap[r.Name] == nil {
-		return Result{}, errRunnerNotFound
-	}
-
 	if r.Param == nil {
 		return Result{}, errRunnerParamNil
 	}
 
 	r.Param["Symbol"] = r.Symbol
 
-	runner := runnerMap[r.Name]
+	runner, err := lookupRunner(r.Name)
+	if err != nil {
+		return Result{}, err
+	}
+
 	if err := mapToStruct(r.Param, runner); err != nil {
 		return Result{}, err
 	}
@@ -82,4 +76,15 @@ func mapToStruct(param map[string]interface{}, s interface{}) error {
 	}
 
 	return nil
+}
+
+// Hacks: turn runner name -> runner struct dynamically.
+//		  see mapToStruct()
+func lookupRunner(name string) (runnerOp, error) {
+	switch name {
+	case "MinMax":
+		return &minMax{}, nil
+	default:
+		return nil, errRunnerNotFound
+	}
 }
