@@ -19,12 +19,16 @@ func main() {
 		log.Fatal("read example.yaml failed")
 	}
 
-	var holdings []core.Holding
-	if err := yaml.Unmarshal(buf, &holdings); err != nil {
+	var Molokai core.Molokai
+	if err := yaml.Unmarshal(buf, &Molokai); err != nil {
 		log.Fatal("parse example.yaml failed")
 	}
 
-	if err := core.RunHoldings(holdings); err != nil {
+	if err := Molokai.Init(); err != nil {
+		log.Fatal(err)
+	}
+
+	if err := Molokai.RunHoldings(); err != nil {
 		log.Fatal(err)
 	}
 }

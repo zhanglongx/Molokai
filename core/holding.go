@@ -6,7 +6,6 @@
 package core
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/zhanglongx/Molokai/runner"
@@ -20,25 +19,8 @@ type Holding struct {
 	Runners []runner.Runner `yaml:"runners"`
 }
 
-// Runholdings launches runners on each holding
-func RunHoldings(holdings []Holding) error {
-	if len(holdings) == 0 {
-		log.Printf("holding has none, check the input")
-		return nil
-	}
-
-	for _, h := range holdings {
-		if err := h.Run(); err != nil {
-			log.Printf("run %s failed", h.Symbol)
-			continue
-		}
-	}
-
-	return nil
-}
-
 // Run launches all runners
-func (h *Holding) Run() error {
+func (h *Holding) Run(reminders Reminders) error {
 	if h.Symbol == "" {
 		log.Printf("symbol is nil")
 		return nil
@@ -60,9 +42,12 @@ func (h *Holding) Run() error {
 		}
 
 		if m.IsShouldRemind {
-			// tempz
-			fmt.Printf("%s: %s\n", h.Symbol, m.Message)
+			reminders.Fill(m)
 		}
+	}
+
+	if err := reminders.Send(); err != nil {
+		log.Printf("run reminder failed: %v", err)
 	}
 
 	return nil

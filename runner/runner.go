@@ -3,11 +3,12 @@ package runner
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type Runner struct {
 	// Runner Symbol. Same as core.Symbol
-	// Normally, it will be assigned other than Unmarshal
+	// Normally, it will be assigned instead Unmarshal-ed
 	Symbol string
 
 	// Runner name. It will be used to look up a runner
@@ -59,7 +60,14 @@ func (r *Runner) Run() (Result, error) {
 		return Result{}, errRunnerNotValid
 	}
 
-	return runner.Check()
+	m, err := runner.Check()
+	if err != nil {
+		return Result{}, err
+	}
+
+	m.Message = fmt.Sprintf("%s: %s", r.Symbol, m.Message)
+
+	return m, nil
 }
 
 // turn a map into struct, use json.Marshal and json.Unmarshal.

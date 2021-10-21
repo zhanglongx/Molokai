@@ -1,5 +1,9 @@
+version: v1
+holdings:
 - symbol: '600000.SH'
   runners: 
   - name: "MinMax"
     param: 
-      min: 0.0
+      min: 10.0
+reminders:
+  to: "zhanglongx@263.net"
