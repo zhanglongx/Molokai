@@ -41,8 +41,13 @@ func (h *Holding) Run(reminders Reminders) error {
 			continue
 		}
 
-		if m.IsShouldRemind {
-			reminders.Fill(m)
+		// TODO: use reminder list
+		if reminders.IsTurnOn() {
+			if m.IsShouldRemind {
+				reminders.Fill(m)
+			}
+		} else {
+			log.Printf(m.Message)
 		}
 	}
 

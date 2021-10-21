@@ -15,6 +15,8 @@ type Reminders struct {
 	// Reminder to
 	To string `yaml:"to"`
 
+	TurnOn bool `yaml:"turnon"`
+
 	messages []runner.Result `yaml:"-"`
 }
 
@@ -30,11 +32,19 @@ func (r *Reminders) Init() error {
 	return nil
 }
 
+func (r *Reminders) IsTurnOn() bool {
+	return r.TurnOn
+}
+
 func (r *Reminders) Fill(msg runner.Result) {
 	r.messages = append(r.messages, msg)
 }
 
 func (r *Reminders) Send() error {
+	if !r.IsTurnOn() {
+		return nil
+	}
+
 	var body string
 	for _, m := range r.messages {
 		body += m.Message + "\n"
