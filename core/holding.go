@@ -46,6 +46,7 @@ func (h *Holding) Run(reminders Reminders) error {
 		}
 	}
 
+	// TODO: or launch reminders on all holdings?
 	if err := reminders.Send(); err != nil {
 		log.Printf("run reminder failed: %v", err)
 	}

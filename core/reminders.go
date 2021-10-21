@@ -15,7 +15,7 @@ type Reminders struct {
 	// Reminder to
 	To string `yaml:"to"`
 
-	messages []runner.Result
+	messages []runner.Result `yaml:"-"`
 }
 
 var (

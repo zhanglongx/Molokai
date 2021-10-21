@@ -9,7 +9,7 @@ import (
 type Runner struct {
 	// Runner Symbol. Same as core.Symbol
 	// Normally, it will be assigned instead Unmarshal-ed
-	Symbol string
+	Symbol string `yaml:"-"`
 
 	// Runner name. It will be used to look up a runner
 	Name string `yaml:"name"`

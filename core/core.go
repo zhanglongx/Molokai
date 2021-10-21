@@ -65,13 +65,13 @@ func (m *Molokai) RunHoldings() error {
 
 var smtpCfg struct {
 	From struct {
-		User     string
-		Password string
+		User     string `yaml:"user"`
+		Password string `yaml:"password"`
 	}
 
 	Smtp struct {
-		Smtp string
-		Port int
+		Smtp string `yaml:"smtp"`
+		Port int    `yaml:"port"`
 	}
 }
 
