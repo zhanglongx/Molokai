@@ -18,3 +18,5 @@
 *.vscode/
 
 Molokai
+
+tsWrapper/tsWrapper_test.go
