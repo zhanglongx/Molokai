@@ -10,6 +10,7 @@ import (
 	"strings"
 
 	"github.com/go-yaml/yaml"
+	"github.com/zhanglongx/Molokai/tsWrapper"
 )
 
 const (
@@ -19,6 +20,8 @@ const (
 
 type Molokai struct {
 	Version string `yaml:"version"`
+
+	Token string `yaml:"token"`
 
 	Holdings []Holding `yaml:"holdings"`
 
@@ -42,6 +45,8 @@ func (m *Molokai) Init() error {
 	if err := m.Reminders.Init(); err != nil {
 		return err
 	}
+
+	tsWrapper.Token = m.Token
 
 	return nil
 }
