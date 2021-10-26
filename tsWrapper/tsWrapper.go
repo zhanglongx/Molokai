@@ -7,6 +7,7 @@ import (
 	"github.com/ShawnRong/tushare-go"
 	"github.com/fxtlabs/date"
 	"github.com/go-gota/gota/dataframe"
+	"github.com/go-gota/gota/series"
 )
 
 var Token string
@@ -85,8 +86,27 @@ func AdjFactor(tsCode string, date date.Date) (float64, error) {
 }
 
 func RecentClose(tsCode string) (float64, error) {
-	if err := apiInit(); err != nil {
+	s, err := Close(tsCode)
+	if err != nil {
 		return 0.0, err
+	}
+
+	return s.Elem(0).Float(), nil
+}
+
+func MA(tsCode string) (float64, error) {
+	s, err := Close(tsCode)
+	if err != nil {
+		return 0.0, err
+	}
+
+	// TODO: adjFactor
+	return s.Slice(0, 60).Mean(), nil
+}
+
+func Close(tsCode string) (series.Series, error) {
+	if err := apiInit(); err != nil {
+		return series.Series{}, err
 	}
 
 	params := make(map[string]string)
@@ -96,14 +116,19 @@ func RecentClose(tsCode string) (float64, error) {
 
 	resp, err := api.DailyBasic(params, fields)
 	if err != nil {
-		return 0.0, err
+		return series.Series{}, err
 	}
 
 	if len(resp.Data.Items) == 0 {
-		return 0.0, errEmptyData
+		return series.Series{}, errEmptyData
 	}
 
-	return resp.Data.Items[0][0].(float64), nil
+	df, err := array2DtoDf(resp.Data.Items, fields)
+	if err != nil {
+		return series.Series{}, err
+	}
+
+	return df.Col("close"), nil
 }
 
 func toNumeric(d date.Date) string {
