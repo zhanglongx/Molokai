@@ -32,6 +32,9 @@ func apiInit() error {
 	return nil
 }
 
+// Symbol returns the ts_code, the input can be either of
+// ts_code, symbol, name. It Will get the ts_code value by
+// querying the StockBasic api
 func Symbol(s string) (string, error) {
 	if err := apiInit(); err != nil {
 		return "", err
@@ -85,6 +88,7 @@ func AdjFactor(tsCode string, date date.Date) (float64, error) {
 	return resp.Data.Items[0][0].(float64), nil
 }
 
+// RecentClose returns the recent one close value
 func RecentClose(tsCode string) (float64, error) {
 	s, err := Close(tsCode)
 	if err != nil {
@@ -94,16 +98,7 @@ func RecentClose(tsCode string) (float64, error) {
 	return s.Elem(0).Float(), nil
 }
 
-func MA(tsCode string) (float64, error) {
-	s, err := Close(tsCode)
-	if err != nil {
-		return 0.0, err
-	}
-
-	// TODO: adjFactor
-	return s.Slice(0, 60).Mean(), nil
-}
-
+// Close return a series of close by quering DailyBasic API
 func Close(tsCode string) (series.Series, error) {
 	if err := apiInit(); err != nil {
 		return series.Series{}, err
@@ -129,6 +124,19 @@ func Close(tsCode string) (series.Series, error) {
 	}
 
 	return df.Col("close"), nil
+}
+
+// MA return a the default 60 period of Moving Average
+// close by quering DailyBasic API. It *NOT* support
+// AdjFactor now
+func MA(tsCode string) (float64, error) {
+	s, err := Close(tsCode)
+	if err != nil {
+		return 0.0, err
+	}
+
+	// TODO: adjFactor
+	return s.Slice(0, 60).Mean(), nil
 }
 
 func toNumeric(d date.Date) string {
