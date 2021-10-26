@@ -92,6 +92,8 @@ func lookupRunner(name string) (runnerOp, error) {
 	switch name {
 	case "MinMax":
 		return &minMax{}, nil
+	case "MA":
+		return &ma{}, nil
 	default:
 		return nil, errRunnerNotFound
 	}

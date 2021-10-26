@@ -2,7 +2,10 @@ package runner
 
 import (
 	"fmt"
+	"log"
 	"math"
+
+	"github.com/zhanglongx/Molokai/tsWrapper"
 )
 
 type minMax struct {
@@ -21,7 +24,13 @@ func (m *minMax) Valid() bool {
 }
 
 func (m *minMax) Check() (r Result, err error) {
-	now := 1.0
+	now, err := tsWrapper.RecentClose(m.Symbol)
+	if err != nil {
+		return Result{}, err
+	}
+
+	log.Printf("%s: close %.2f", m.Symbol, now)
+
 	if now < m.Min {
 		r.IsShouldRemind = true
 		r.Message = fmt.Sprintf("%.2f drop below %.2f", now, m.Min)
@@ -30,7 +39,7 @@ func (m *minMax) Check() (r Result, err error) {
 
 	if now > m.Max {
 		r.IsShouldRemind = true
-		r.Message = fmt.Sprintf("%.2f exceed %.2f", now, m.Max)
+		r.Message = fmt.Sprintf("%.2f exceed above %.2f", now, m.Max)
 		return
 	}
 
