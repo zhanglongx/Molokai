@@ -6,17 +6,42 @@ import (
 	"os"
 
 	"github.com/go-yaml/yaml"
+	"github.com/jessevdk/go-flags"
 	"github.com/zhanglongx/Molokai/core"
 )
 
+var opt struct {
+	// None for now
+}
+
 func main() {
-	if _, err := os.Stat("example.yaml"); os.IsNotExist(err) {
-		log.Fatal("file not exists")
+	args, err := flags.ParseArgs(&opt, os.Args)
+	if err != nil {
+		if flags.WroteHelp(err) {
+			os.Exit(0)
+		}
+		log.Fatal(err)
 	}
 
-	buf, err := ioutil.ReadFile("example.yaml")
+	var cfgFile string
+	if len(args) > 2 {
+		log.Fatal("more than 1 input file")
+	} else if len(args) == 1 {
+		log.Printf("no cfg file given, using default: molokai.yaml")
+		cfgFile = "molokai.yaml"
+	} else {
+		cfgFile = args[1]
+	}
+
+	log.Printf("using cfg file: %s", cfgFile)
+
+	if _, err := os.Stat(cfgFile); os.IsNotExist(err) {
+		log.Fatalf("file %s not exists", cfgFile)
+	}
+
+	buf, err := ioutil.ReadFile(cfgFile)
 	if err != nil {
-		log.Fatal("read example.yaml failed")
+		log.Fatalf("read %s failed", cfgFile)
 	}
 
 	var Molokai core.Molokai
