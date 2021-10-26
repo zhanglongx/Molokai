@@ -17,6 +17,7 @@
 # vscode
 *.vscode/
 
+*.yaml
 Molokai
 
 tsWrapper/tsWrapper_test.go
