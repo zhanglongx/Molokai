@@ -24,6 +24,8 @@ func (m *minMax) Valid() bool {
 }
 
 func (m *minMax) Check() (r Result, err error) {
+	r.TsCode = m.TsCode
+
 	now, err := tsWrapper.RecentClose(m.TsCode)
 	if err != nil {
 		return Result{}, err

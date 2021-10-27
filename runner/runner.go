@@ -29,6 +29,8 @@ type runnerOp interface {
 }
 
 type Result struct {
+	TsCode tsWrapper.TsCode
+
 	// Used by runner to indict if Reminders should be launched
 	IsShouldRemind bool
 
@@ -68,8 +70,6 @@ func (r *Runner) Run() (Result, error) {
 		return Result{}, err
 	}
 
-	m.Message = fmt.Sprintf("%s: %s", r.TsCode, m.Message)
-
 	return m, nil
 }
 
@@ -100,4 +100,13 @@ func lookupRunner(name string) (runnerOp, error) {
 	default:
 		return nil, errRunnerNotFound
 	}
+}
+
+func (r *Result) String() string {
+	s, err := tsWrapper.SymbolName(string(r.TsCode), "name")
+	if err != nil {
+		panic(err)
+	}
+
+	return fmt.Sprintf("%s: %s", s, r.Message)
 }

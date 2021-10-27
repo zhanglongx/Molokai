@@ -47,7 +47,7 @@ func (r *Reminders) Send() error {
 
 	var body string
 	for _, m := range r.messages {
-		body += m.Message + "\n"
+		body += m.String() + "\n"
 	}
 
 	if body == "" {

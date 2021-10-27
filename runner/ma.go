@@ -18,6 +18,8 @@ func (m *ma) Valid() bool {
 }
 
 func (m *ma) Check() (r Result, err error) {
+	r.TsCode = m.TsCode
+
 	close, err := tsWrapper.RecentClose(m.TsCode)
 	if err != nil {
 		return Result{}, err
