@@ -1,21 +1,13 @@
-# V1
-
-- 数据库存储条目信息
-
-- 读取 -> runner -> reminder
-
-- 支持config
-
-- 多种价格
-
-- yaml格式数据
-
 # V2
+
+- using database, like MySql
 
 - HTTP
 
-- 读取持仓成本
+- reading cost from beancount
 
-- 自动复权
+- auto adj on cost
 
-- 支持list
+- support for LIST
+
+- variety symbol
