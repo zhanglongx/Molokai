@@ -4,12 +4,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
+	"github.com/zhanglongx/Molokai/tsWrapper"
 )
 
 type Runner struct {
-	// Runner Symbol. Same as core.Symbol
+	// Runner TsCode. Same as core.TsCode
 	// Normally, it will be assigned instead Unmarshal-ed
-	Symbol string `yaml:"-"`
+	TsCode tsWrapper.TsCode `yaml:"-"`
 
 	// Runner name. It will be used to look up a runner
 	Name string `yaml:"name"`
@@ -45,7 +47,8 @@ func (r *Runner) Run() (Result, error) {
 		return Result{}, errRunnerParamNil
 	}
 
-	r.Param["Symbol"] = r.Symbol
+	// XXX: TsCode is not in Molokai yaml, BUT is necessary for each runner
+	r.Param["TsCode"] = r.TsCode
 
 	runner, err := lookupRunner(r.Name)
 	if err != nil {
@@ -65,7 +68,7 @@ func (r *Runner) Run() (Result, error) {
 		return Result{}, err
 	}
 
-	m.Message = fmt.Sprintf("%s: %s", r.Symbol, m.Message)
+	m.Message = fmt.Sprintf("%s: %s", r.TsCode, m.Message)
 
 	return m, nil
 }

@@ -59,13 +59,6 @@ func (m *Molokai) RunHoldings() error {
 	}
 
 	for _, h := range m.Holdings {
-		var err error
-		h.Symbol, err = tsWrapper.Symbol(h.Symbol, "ts_code")
-		if err != nil {
-			log.Printf("symbol error: %s", h.Symbol)
-			continue
-		}
-
 		if err := h.Run(m.Reminders); err != nil {
 			log.Printf("run %s failed", h.Symbol)
 			continue

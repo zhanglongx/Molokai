@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/zhanglongx/Molokai/runner"
+	"github.com/zhanglongx/Molokai/tsWrapper"
 )
 
 type Holding struct {
@@ -32,12 +33,18 @@ func (h *Holding) Run(reminders Reminders) error {
 	}
 
 	for _, runner := range h.Runners {
-		runner.Symbol = h.Symbol
+		tsCode, err := tsWrapper.SymbolName(h.Symbol, "ts_code")
+		if err != nil {
+			log.Printf("symbol error: %v", err)
+			continue
+		}
+
+		runner.TsCode = tsWrapper.TsCode(tsCode)
 
 		m, err := runner.Run()
 		if err != nil {
 			log.Printf("run %s for runner %s failed: %v",
-				runner.Symbol, runner.Name, err)
+				runner.TsCode, runner.Name, err)
 			continue
 		}
 

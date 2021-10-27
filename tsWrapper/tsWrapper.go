@@ -10,6 +10,8 @@ import (
 	"github.com/go-gota/gota/series"
 )
 
+type TsCode string
+
 var Token string
 
 var api *tushare.TuShare
@@ -32,10 +34,10 @@ func apiInit() error {
 	return nil
 }
 
-// Symbol returns the ts_code, the input can be either of
+// SymbolName returns the ts_code, the input can be either of
 // ts_code, symbol, name. It Will get the ts_code value by
 // querying the StockBasic api
-func Symbol(s string, key string) (string, error) {
+func SymbolName(s string, key string) (string, error) {
 	if err := apiInit(); err != nil {
 		return "", err
 	}
@@ -65,7 +67,7 @@ func Symbol(s string, key string) (string, error) {
 
 	for _, row := range resp.Data.Items {
 		for _, col := range row {
-			if col.(string) == s {
+			if col.(string) == string(s) {
 				return row[index].(string), nil
 			}
 		}
@@ -77,7 +79,7 @@ func Symbol(s string, key string) (string, error) {
 // AdjFactor https://tushare.pro/document/2?doc_id=28
 // Only if date is trading days can get the data, if it is a non-trading day
 // error will be returned
-func AdjFactor(tsCode string, date date.Date) (float64, error) {
+func AdjFactor(tsCode TsCode, date date.Date) (float64, error) {
 	if err := apiInit(); err != nil {
 		return 1.0, err
 	}
@@ -85,7 +87,7 @@ func AdjFactor(tsCode string, date date.Date) (float64, error) {
 	fields := []string{"adj_factor"}
 
 	resp, err := api.AdjFactor(map[string]string{
-		"ts_code":    tsCode,
+		"ts_code":    string(tsCode),
 		"start_date": toNumeric(date),
 		"end_date":   toNumeric(date)}, fields)
 	if err != nil {
@@ -100,7 +102,7 @@ func AdjFactor(tsCode string, date date.Date) (float64, error) {
 }
 
 // RecentClose returns the recent one close value
-func RecentClose(tsCode string) (float64, error) {
+func RecentClose(tsCode TsCode) (float64, error) {
 	s, err := Close(tsCode)
 	if err != nil {
 		return 0.0, err
@@ -110,7 +112,7 @@ func RecentClose(tsCode string) (float64, error) {
 }
 
 // Close return a series of close by quering DailyBasic API
-func Close(tsCode string) (series.Series, error) {
+func Close(tsCode TsCode) (series.Series, error) {
 	if err := apiInit(); err != nil {
 		return series.Series{}, err
 	}
@@ -140,7 +142,7 @@ func Close(tsCode string) (series.Series, error) {
 // MA return a the default 60 period of Moving Average
 // close by quering DailyBasic API. It *NOT* support
 // AdjFactor now
-func MA(tsCode string) (float64, error) {
+func MA(tsCode TsCode) (float64, error) {
 	s, err := Close(tsCode)
 	if err != nil {
 		return 0.0, err

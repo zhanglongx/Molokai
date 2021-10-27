@@ -9,7 +9,7 @@ import (
 )
 
 type minMax struct {
-	Symbol string
+	TsCode tsWrapper.TsCode
 
 	Min float64
 	Max float64
@@ -24,12 +24,12 @@ func (m *minMax) Valid() bool {
 }
 
 func (m *minMax) Check() (r Result, err error) {
-	now, err := tsWrapper.RecentClose(m.Symbol)
+	now, err := tsWrapper.RecentClose(m.TsCode)
 	if err != nil {
 		return Result{}, err
 	}
 
-	log.Printf("%s: close %.2f", m.Symbol, now)
+	log.Printf("%s: close %.2f", m.TsCode, now)
 
 	if now < m.Min {
 		r.IsShouldRemind = true

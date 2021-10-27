@@ -8,7 +8,7 @@ import (
 )
 
 type ma struct {
-	Symbol string
+	TsCode tsWrapper.TsCode
 
 	Upper bool
 }
@@ -18,17 +18,17 @@ func (m *ma) Valid() bool {
 }
 
 func (m *ma) Check() (r Result, err error) {
-	close, err := tsWrapper.RecentClose(m.Symbol)
+	close, err := tsWrapper.RecentClose(m.TsCode)
 	if err != nil {
 		return Result{}, err
 	}
 
-	maV, err := tsWrapper.MA(m.Symbol)
+	maV, err := tsWrapper.MA(m.TsCode)
 	if err != nil {
 		return Result{}, err
 	}
 
-	log.Printf("%s: ma %.2f close %.2f", m.Symbol, maV, close)
+	log.Printf("%s: ma %.2f close %.2f", m.TsCode, maV, close)
 
 	if close < maV && !m.Upper {
 		r.IsShouldRemind = true
