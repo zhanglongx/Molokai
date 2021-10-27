@@ -17,7 +17,7 @@ var api *tushare.TuShare
 var (
 	errTokenNotSet = errors.New("tushare token is not set")
 	errEmptyData   = errors.New("empty data, wrong token? not in trading day?")
-	errType        = errors.New("type error")
+	errValue       = errors.New("value error")
 )
 
 func apiInit() error {
@@ -35,7 +35,7 @@ func apiInit() error {
 // Symbol returns the ts_code, the input can be either of
 // ts_code, symbol, name. It Will get the ts_code value by
 // querying the StockBasic api
-func Symbol(s string) (string, error) {
+func Symbol(s string, key string) (string, error) {
 	if err := apiInit(); err != nil {
 		return "", err
 	}
@@ -52,10 +52,21 @@ func Symbol(s string) (string, error) {
 		return "", errEmptyData
 	}
 
+	index := -1
+	for i := range fields {
+		if fields[i] == key {
+			index = i
+		}
+	}
+
+	if index == -1 {
+		return "", errValue
+	}
+
 	for _, row := range resp.Data.Items {
 		for _, col := range row {
 			if col.(string) == s {
-				return row[0].(string), nil
+				return row[index].(string), nil
 			}
 		}
 	}
