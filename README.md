@@ -5,7 +5,7 @@ Molokai is a trading price alert system.
 ## Build
 
 ```bash
-	$ go build .
+    $ go build .
 ```
 
 ## Usage
