@@ -1,6 +1,6 @@
 # V2
 
-- using database, like MySql
+- using database, eg. MySql
 
 - HTTP
 
@@ -8,6 +8,6 @@
 
 - auto adj on cost
 
-- support for LIST
+- support for LIST (via HTTP)
 
 - variety symbol
