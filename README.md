@@ -46,7 +46,7 @@ In general, you will want Molokai to be executed daily by the cron service on Li
       # runner param
       param: {max: 30.00, min: 22.08}
   reminders:
-  turnon: true
+    turnon: true
     to: "<to@email.com>"
 ```
 
