@@ -1,6 +1,6 @@
 # Molokai
 
-Molokai is a trading price alert system.
+Molokai is a trading price alert tool.
 
 Molokai fetches the lasted price data(only CN market symbol supported now) from tushare. Then A runner is used to see if it meet certain conditions. The common condition is MinMax, MA. 
 
