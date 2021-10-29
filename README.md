@@ -2,7 +2,7 @@
 
 Molokai is a trading price alert tool.
 
-Molokai fetches the lasted price data(only CN market symbol supported now) from tushare. Then A runner is used to see if it meet certain conditions. The common condition is MinMax, MA. 
+Molokai fetches the lasted price data(only CN market symbol supported now) from tushare. Then a runner is used to see if it meet certain conditions. The common condition is MinMax, MA. 
 
 If the runner outputs a result, then a reminder is automatically started. For example, the email reminder will send an email with result to the user.
 
