@@ -53,7 +53,7 @@ In general, you will want Molokai to be executed daily by the cron service on Li
 3. run
 
 ```bash
-	$ Molokai <runtime.yaml>
+    $ Molokai <runtime.yaml>
 ```
 
 ## About
