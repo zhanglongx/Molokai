@@ -2,7 +2,9 @@ package tsWrapper
 
 import (
 	"errors"
+	"log"
 	"strings"
+	"time"
 
 	"github.com/ShawnRong/tushare-go"
 	"github.com/fxtlabs/date"
@@ -21,6 +23,8 @@ var (
 	errEmptyData   = errors.New("empty data, wrong token? not in trading day?")
 	errValue       = errors.New("value error")
 )
+
+type tsFuncT func(map[string]string, []string) (*tushare.APIResponse, error)
 
 func apiInit() error {
 	if api == nil {
@@ -44,14 +48,10 @@ func SymbolName(s string, key string) (string, error) {
 
 	fields := []string{"ts_code", "symbol", "name"}
 
-	resp, err := api.StockBasic(map[string]string{"exchange": "", "list_status": "L"},
+	resp, err := tsFunc(api.StockBasic, map[string]string{"exchange": "", "list_status": "L"},
 		fields)
 	if err != nil {
 		return "", err
-	}
-
-	if len(resp.Data.Items) == 0 {
-		return "", errEmptyData
 	}
 
 	index := -1
@@ -86,16 +86,13 @@ func AdjFactor(tsCode TsCode, date date.Date) (float64, error) {
 
 	fields := []string{"adj_factor"}
 
-	resp, err := api.AdjFactor(map[string]string{
+	resp, err := tsFunc(api.AdjFactor, map[string]string{
 		"ts_code":    string(tsCode),
 		"start_date": toNumeric(date),
-		"end_date":   toNumeric(date)}, fields)
+		"end_date":   toNumeric(date)},
+		fields)
 	if err != nil {
 		return 1.0, err
-	}
-
-	if len(resp.Data.Items) == 0 {
-		return 1.0, errEmptyData
 	}
 
 	return resp.Data.Items[0][0].(float64), nil
@@ -122,13 +119,9 @@ func Close(tsCode TsCode) (series.Series, error) {
 
 	fields := []string{"close"}
 
-	resp, err := api.DailyBasic(params, fields)
+	resp, err := tsFunc(api.DailyBasic, params, fields)
 	if err != nil {
 		return series.Series{}, err
-	}
-
-	if len(resp.Data.Items) == 0 {
-		return series.Series{}, errEmptyData
 	}
 
 	df, err := array2DtoDf(resp.Data.Items, fields)
@@ -170,4 +163,22 @@ func array2DtoDf(a [][]interface{}, fields []string) (*dataframe.DataFrame, erro
 
 	df := dataframe.LoadMaps(result)
 	return &df, df.Error()
+}
+
+func tsFunc(name tsFuncT, param map[string]string, fields []string) (r *tushare.APIResponse, err error) {
+	for cnt := 0; cnt < 3; cnt++ {
+		r, err = name(param, fields)
+		if err != nil {
+			log.Printf("%v failed, retry in 60s", name)
+			time.Sleep(60 * time.Second)
+			continue
+		}
+
+		if len(r.Data.Items) != 0 {
+			// OK
+			return
+		}
+	}
+
+	return
 }

@@ -12,6 +12,7 @@ require (
 )
 
 require (
+	github.com/choleraehyq/gofunctools v0.0.0-20170311135431-c5e9260901e5 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect
 	golang.org/x/net v0.0.0-20210423184538-5f58ad60dda6 // indirect
 	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359 // indirect
