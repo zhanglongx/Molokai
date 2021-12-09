@@ -5,8 +5,6 @@ github.com/ShawnRong/tushare-go v0.0.0-20200418035301-a5d4e0f72854 h1:JuJt9mJKjv
 github.com/ShawnRong/tushare-go v0.0.0-20200418035301-a5d4e0f72854/go.mod h1:itk99hhMTCA0hAiX614YcECQZaqd56qysQzZluyCbs0=
 github.com/ajstarks/svgo v0.0.0-20180226025133-644b8db467af/go.mod h1:K08gAheRH3/J6wwsYMMT4xOr94bZjxIelGM0+d/wbFw=
 github.com/boombuler/barcode v1.0.0/go.mod h1:paBWMcWSl3LHKBqUq+rly7CNSldXjb2rDl3JlRe0mD8=
-github.com/choleraehyq/gofunctools v0.0.0-20170311135431-c5e9260901e5 h1:6rlfgPWQuP2E6Jvk+1EGHGiZQpPGIoy31t+bYSt79kc=
-github.com/choleraehyq/gofunctools v0.0.0-20170311135431-c5e9260901e5/go.mod h1:2dK9uKQAocMGPze9BcZ4N4UA7OkXUFa/+KQrTiQ4nsc=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fogleman/gg v1.2.1-0.20190220221249-0403632d5b90/go.mod h1:R/bRT+9gY/C5z7JzPU0zXsXHKM4/ayA+zqcVNZzPa1k=
