@@ -13,7 +13,7 @@ type ma struct {
 	// Upper indicts it cross from below or from above
 	Upper bool
 
-	// Close * (1 + Magnify)
+	// MA * (1 + Magnify)
 	Magnify float64
 }
 
@@ -36,13 +36,13 @@ func (m *ma) Check() (r Result, err error) {
 
 	log.Printf("%s: ma %.2f close %.2f", m.TsCode, maV, close)
 
-	if close*(1+m.Magnify) < maV && !m.Upper {
+	if close < maV*(1+m.Magnify) && !m.Upper {
 		r.IsShouldRemind = true
 		r.Message = fmt.Sprintf("%.2f drop below MA %.2f", close, maV)
 		return
 	}
 
-	if close*(1+m.Magnify) > maV && m.Upper {
+	if close > maV*(1+m.Magnify) && m.Upper {
 		r.IsShouldRemind = true
 		r.Message = fmt.Sprintf("%.2f exceed above MA %.2f", close, maV)
 		return
