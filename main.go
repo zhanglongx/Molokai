@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
@@ -10,8 +11,12 @@ import (
 	"github.com/zhanglongx/Molokai/core"
 )
 
+const (
+	VERSION = "1.0.2"
+)
+
 var opt struct {
-	// None for now
+	Version bool `long:"version"`
 }
 
 func main() {
@@ -21,6 +26,11 @@ func main() {
 			os.Exit(0)
 		}
 		log.Fatal(err)
+	}
+
+	if opt.Version {
+		fmt.Println("Molokai " + VERSION)
+		os.Exit(0)
 	}
 
 	var cfgFile string
