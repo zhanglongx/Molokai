@@ -2,13 +2,11 @@
 
 - using database, eg. MySql
 
-- HTTP
+- HTTP (Web UI, app)
 
-- reading cost from beancount
+- manually cost input, or reading cost from beancount
 
 - auto adj on cost
-
-- support for LIST (via HTTP)
 
 - industry, short term/long term
 
